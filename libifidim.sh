@@ -1,0 +1,1 @@
+sudo python libifidi.py / files 100000000 && sudo chown louis files && cat files | grep -v ' /proc' | grep -v ' /dev' | grep -v ' /sys' | grep -v ' /home' > output

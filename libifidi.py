@@ -10,6 +10,7 @@ def sizeof_fmt(num, suffix='o'):
     :type suffix: str
     :rtype: str
     """
+    # Copy/pasted from SO
     for unit in ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z']:
         if abs(num) < 1024.0:
             return "%3.1f %s%s" % (num, unit, suffix)
@@ -33,10 +34,11 @@ def libifidi(root):
     return OrderedDict([(file, tree[file]) for file in sorted(tree, key=lambda x: tree[x], reverse=True)])
 
 
-def main(root, output_file):
+def main(root, output_file, size_min):
     with open(output_file, 'w') as f:
         for file, size in libifidi(root).items():
-            f.write(sizeof_fmt(size).ljust(12, ' ') + file + '\n')
+            if size >= int(size_min):
+                f.write(sizeof_fmt(size).ljust(12, ' ') + file + '\n')
 
 
 if __name__ == '__main__':

@@ -29,7 +29,12 @@ def get_file_size(path, log=False):
 
 def libifidi(root):
     tree = {}
-    for directory, _, files in os.walk(root):
+    all_files = list(os.walk(root))
+    file_nbr = len(all_files)
+    for i, (directory, _, files) in enumerate(all_files):
+        i += 1
+        pct = int(i * 100 / file_nbr)
+        print('[' + (pct * '>').ljust(100, ' ') + ']', pct, '%', end='\r')
         tree[directory] = sum([get_file_size(os.path.join(directory, file)) for file in files])
     return OrderedDict([(file, tree[file]) for file in sorted(tree, key=lambda x: tree[x], reverse=True)])
 
